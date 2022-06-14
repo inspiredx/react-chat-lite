@@ -16,6 +16,10 @@ app.get('/rooms', (req, res) => {  //Если переходим по localhost 
     res.json(rooms); //Отправляем ответ
 });
 
+app.post('/rooms', (req, res) => {
+    console.log('Hello');
+})
+
 io.on('connection', socket => { //Функция выполняется при подкл к сокету
     console.log('user connected', socket.id);
 })
