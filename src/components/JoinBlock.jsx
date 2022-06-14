@@ -1,12 +1,19 @@
 import React from 'react';
 import socket from "../socket"; //при это сокеты подключены в отдельном файле
+import axios from 'axios';
 
 function JoinBlock() {
     const[roomId, setRoomId] = React.useState('');
     const[userName, setUserName] = React.useState('');
 
     const onEnter = () => {
-        console.log(roomId, userName);
+        if(!roomId || !userName) {
+            return alert('Заполните поля ввода');
+        }
+        axios.post('./rooms', {
+            roomId,
+            userName,
+        });
     }
 
 
