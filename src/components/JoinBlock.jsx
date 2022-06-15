@@ -1,8 +1,7 @@
 import React from 'react';
-import socket from "../socket"; //при это сокеты подключены в отдельном файле
 import axios from 'axios';
 
-function JoinBlock() {
+function JoinBlock({onLogin}) {
     const[roomId, setRoomId] = React.useState('');
     const[userName, setUserName] = React.useState('');
 
@@ -13,8 +12,8 @@ function JoinBlock() {
         axios.post('./rooms', {
             roomId,
             userName,
-        });
-    }
+        }).then(onLogin);        
+    };
 
 
     return (
