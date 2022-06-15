@@ -3,16 +3,20 @@ import axios from 'axios';
 
 function JoinBlock({onLogin}) {
     const[roomId, setRoomId] = React.useState('');
-    const[userName, setUserName] = React.useState('');
+    const[userName, setUserName] = React.useState(true);
+    const[isLoading, setLoading] = React.useState(true);
 
-    const onEnter = () => {
+    const onEnter = async () => {
         if(!roomId || !userName) {
             return alert('Заполните поля ввода');
         }
-        axios.post('./rooms', {
+        const obj = {
             roomId,
             userName,
-        }).then(onLogin);        
+        };
+        setLoading(true);
+        await axios.post('./rooms', obj)
+        onLogin(obj);
     };
 
 
@@ -20,7 +24,9 @@ function JoinBlock({onLogin}) {
         <div className="join-block">
             <input type="text" placeholder="Room ID" value={roomId} onChange={(e) => setRoomId(e.target.value)}></input>
             <input type="text" placeholder="Введите имя" value={userName} onChange={(e) => setUserName(e.target.value)}></input>
-            <button onClick={onEnter} className="btn btn-success">Войти в чат</button>
+            <button disabled={isLoading} onClick={onEnter} className="btn btn-success">
+                {isLoading ? 'Вход...' : 'Войти' }
+            </button>
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import socket from "./socket";
 import reducer from "./reducer";
 import JoinBlock from "./components/JoinBlock";
 
@@ -6,21 +7,22 @@ import JoinBlock from "./components/JoinBlock";
 
 function App() {
   const [state, dispatch] = React.useReducer(reducer, {
-    isAuth: false,
+    joined: false,
   });
 
-  const onLogin = () => {      //Выполняется при входе в чат
+  const onLogin = (obj) => {      //Выполняется при входе в чат
     dispatch({
-      type: 'IS_AUTH',
-      payload: true
-    })
+      type: 'JOINED',
+      payload: obj,
+    });
+    socket.emit('ROOM:JOIN', obj);              //Отправляется сокет запрос на бэкэнд
   }
 
   console.log(state);
 
   return (
   <div className="wrapper">
-    <JoinBlock onLogin={onLogin} />    
+    {!state.isAuth && <JoinBlock onLogin={onLogin} />}    
   </div>
   );
 }
