@@ -3,8 +3,8 @@ import axios from 'axios';
 
 function JoinBlock({onLogin}) {
     const[roomId, setRoomId] = React.useState('');
-    const[userName, setUserName] = React.useState(true);
-    const[isLoading, setLoading] = React.useState(true);
+    const[userName, setUserName] = React.useState('');
+    const[isLoading, setLoading] = React.useState(false);
 
     const onEnter = async () => {
         if(!roomId || !userName) {
@@ -15,7 +15,7 @@ function JoinBlock({onLogin}) {
             userName,
         };
         setLoading(true);
-        await axios.post('./rooms', obj)
+        await axios.post('./rooms', obj);
         onLogin(obj);
     };
 
